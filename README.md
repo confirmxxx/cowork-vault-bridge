@@ -1,6 +1,6 @@
 # cowork-vault-bridge
 
-Bridges your **obsidian-mind** vault with **Anthropic Cowork**, giving every Cowork session live context from your second brain — active projects, north star goals, recent decisions, gotchas, and tool access — without any manual copy-paste.
+Bridges your **obsidian-mind** vault with **Claude Cowork**, giving every Cowork session live context from your second brain — active projects, north star goals, recent decisions, gotchas, and tool access — without any manual copy-paste.
 
 Built for the obsidian-mind stack. Works on Windows, no admin rights required.
 
