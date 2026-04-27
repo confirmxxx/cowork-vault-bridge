@@ -20,7 +20,12 @@ if (-not (Test-Path $WatcherScript)) {
 if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
     Write-Host "Removing existing task..." -ForegroundColor Yellow
     try { Stop-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue } catch {}
-    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+    # Kill leftover BEFORE Unregister to avoid hangs
+    Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandLine -like "*watch-vault.ps1*" } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+    Start-Sleep -Milliseconds 500
+    try { Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false -ErrorAction Stop } catch { Write-Host "WARN: Unregister failed: $($_.Exception.Message)" }
 }
 
 # Kill any leftover watcher processes

@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.3 - 2026-04-26
+
+**Fixed**
+- `install.ps1`: removed `-Force` from `Register-ScheduledTask`. With an explicit `-Principal` block, `-Force` was triggering `Access denied (0x80070005)` on systems where the principal resolution differs slightly between the cmdlet's force-overwrite path and the standard-register path. We already `Unregister-ScheduledTask` first, so `-Force` was redundant anyway.
+- `watchers/install-watcher.ps1`: kill any leftover watcher process *before* `Unregister-ScheduledTask` (was after). Stops the install hanging when re-running over an already-running watcher whose process holds onto the task.
+
+
 ## v1.1.2 - 2026-04-26
 
 **Fixed**

@@ -73,7 +73,7 @@ Register-ScheduledTask `
     -Trigger $triggers `
     -Settings $settings `
     -Principal $principal `
-    -Force | Out-Null
+    | Out-Null
 
 Write-Host "Task Scheduler job '$taskName' registered (daily $($Config.TriggerTime) + at logon)" -ForegroundColor Green
 
