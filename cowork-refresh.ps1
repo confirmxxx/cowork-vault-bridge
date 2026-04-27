@@ -7,14 +7,14 @@ param(
     [string]$ConfigPath = "$PSScriptRoot\config.ps1"
 )
 
-. $ConfigPath   # dot-source user config → $Config
+. $ConfigPath   # dot-source user config -> $Config
 
 $vault    = $Config.VaultRoot
 $claudeMd = $Config.ClaudeMd
 $logFile  = $Config.LogFile
 $date     = Get-Date -Format "yyyy-MM-dd HH:mm"
 
-# ── Logging ──────────────────────────────────────────────────────────────────
+# -- Logging ------------------------------------------------------------------
 
 function Write-Log($msg) {
     $line = "[$date] $msg"
@@ -27,12 +27,12 @@ function Write-Log($msg) {
     }
 }
 
-# ── File helpers ──────────────────────────────────────────────────────────────
+# -- File helpers --------------------------------------------------------------
 
 function Read-VaultFile($rel) {
     $p = Join-Path $vault $rel
     if (Test-Path $p) { return Get-Content $p -Raw -Encoding UTF8 }
-    Write-Log "WARN: not found — $rel"
+    Write-Log "WARN: not found - $rel"
     return $null
 }
 
@@ -56,7 +56,7 @@ function Last-TableRows($content, $n) {
     return ($rows | Select-Object -Last $n) -join "`n"
 }
 
-# ── Pull content ──────────────────────────────────────────────────────────────
+# -- Pull content --------------------------------------------------------------
 
 $brain = $Config.BrainFolder
 
@@ -69,12 +69,12 @@ $extTools   = Read-VaultFile "$brain\External Tool Access.md"
 $activeProjects  = Extract-Section $memories "Active Projects" "Recent Context"
 $recentDecisions = Last-TableRows $keyDec 10
 
-# ── Build snapshot ────────────────────────────────────────────────────────────
+# -- Build snapshot ------------------------------------------------------------
 
 $snapshot = @"
 <!-- COWORK-CONTEXT-START -->
 ## Cowork Live Context
-_Auto-refreshed: $date — do not edit this section manually_
+_Auto-refreshed: $date - do not edit this section manually_
 
 ### Active Projects
 $activeProjects
@@ -99,7 +99,7 @@ $extTools
 <!-- COWORK-CONTEXT-END -->
 "@
 
-# ── Inject into CLAUDE.md ─────────────────────────────────────────────────────
+# -- Inject into CLAUDE.md -----------------------------------------------------
 
 if (-not (Test-Path $claudeMd)) {
     Write-Log "ERROR: CLAUDE.md not found at $claudeMd"

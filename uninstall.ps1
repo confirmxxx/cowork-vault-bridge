@@ -15,7 +15,7 @@ foreach ($name in @($Config.TaskName, $Config.WatcherTaskName)) {
         Unregister-ScheduledTask -TaskName $name -Confirm:$false
         Write-Host "Removed Task Scheduler job '$name'" -ForegroundColor Green
     } else {
-        Write-Host "Task '$name' not found — nothing to remove" -ForegroundColor Yellow
+        Write-Host "Task '$name' not found - nothing to remove" -ForegroundColor Yellow
     }
 }
 
@@ -27,4 +27,4 @@ foreach ($w in $watchers) {
     Stop-Process -Id $w.ProcessId -Force -ErrorAction SilentlyContinue
 }
 
-Write-Host "Uninstall complete. CLAUDE.md context block left in place — remove manually if needed." -ForegroundColor Gray
+Write-Host "Uninstall complete. CLAUDE.md context block left in place - remove manually if needed." -ForegroundColor Gray

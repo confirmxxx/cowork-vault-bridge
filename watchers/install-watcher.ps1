@@ -32,7 +32,7 @@ foreach ($p in $leftover) {
 }
 
 $action = New-ScheduledTaskAction `
-    -Execute "powershell.exe" `
+    -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
     -Argument "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -File `"$WatcherScript`" -ConfigPath `"$ConfigPath`""
 
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME

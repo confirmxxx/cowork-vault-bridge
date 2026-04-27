@@ -1,4 +1,4 @@
-# cowork-vault-bridge — user configuration
+# cowork-vault-bridge - user configuration
 # Edit these to match your machine. Everything else reads from here.
 
 $Config = @{

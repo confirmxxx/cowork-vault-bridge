@@ -15,7 +15,7 @@ Write-Host ""
 Write-Host "cowork-vault-bridge installer" -ForegroundColor Cyan
 Write-Host "==============================" -ForegroundColor Cyan
 
-# ── Validate paths ────────────────────────────────────────────────────────────
+# -- Validate paths ------------------------------------------------------------
 
 $ok = $true
 
@@ -28,7 +28,7 @@ if (-not (Test-Path $Config.ClaudeMd)) {
     $ok = $false
 }
 if (-not (Test-Path $refreshScript)) {
-    Write-Host "ERROR: cowork-refresh.ps1 not found — run install.ps1 from the repo folder" -ForegroundColor Red
+    Write-Host "ERROR: cowork-refresh.ps1 not found - run install.ps1 from the repo folder" -ForegroundColor Red
     $ok = $false
 }
 
@@ -36,18 +36,18 @@ if (-not $ok) { Write-Host "Fix errors above and re-run install.ps1." -Foregroun
 
 Write-Host "Paths OK" -ForegroundColor Green
 
-# ── Register Task Scheduler job ───────────────────────────────────────────────
+# -- Register Task Scheduler job -----------------------------------------------
 
 $taskName = $Config.TaskName
 $existing = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 
 if ($existing) {
-    Write-Host "Task '$taskName' already exists — updating..." -ForegroundColor Yellow
+    Write-Host "Task '$taskName' already exists - updating..." -ForegroundColor Yellow
     Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
 }
 
 $action  = New-ScheduledTaskAction `
-    -Execute "powershell.exe" `
+    -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
     -Argument "-ExecutionPolicy Bypass -NonInteractive -File `"$refreshScript`" -ConfigPath `"$ConfigPath`""
 
 $triggers = @(
@@ -72,7 +72,7 @@ Register-ScheduledTask `
 
 Write-Host "Task Scheduler job '$taskName' registered (daily $($Config.TriggerTime) + at logon)" -ForegroundColor Green
 
-# ── First run ─────────────────────────────────────────────────────────────────
+# -- First run -----------------------------------------------------------------
 
 Write-Host "Running first refresh now..." -ForegroundColor Cyan
 & $refreshScript -ConfigPath $ConfigPath

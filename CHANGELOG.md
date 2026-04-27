@@ -1,4 +1,13 @@
 # Changelog
+## v1.1.1 - 2026-04-26
+
+Compatibility fixes for systems where System32 is not in PATH and PowerShell 5.1 reads .ps1 with Windows-1252 codepage.
+
+**Fixed**
+- `install.ps1` and `watchers/install-watcher.ps1` now register Scheduled Tasks with the absolute path `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe` instead of bare `powershell.exe`. Avoids `0x80070002` (file not found) when Task Scheduler launches the action under a context where System32 isn't in PATH.
+- Stripped Unicode chars (em-dash, en-dash, box-drawing) from all `.ps1` files. PowerShell 5.1 reads BOM-less `.ps1` with the system ANSI codepage (Windows-1252 on most systems); UTF-8 box-drawing/em-dash bytes get misread as `â€"` etc., which the parser sometimes mistakes for a stray quote and chains into "Missing closing '}'" parse errors.
+
+
 
 ## v1.1.0 — 2026-04-26
 
