@@ -54,7 +54,7 @@ $triggers = @(
     # Daily at configured time
     $(New-ScheduledTaskTrigger -Daily -At $Config.TriggerTime),
     # Also run at logon so context is fresh after a reboot
-    $(New-ScheduledTaskTrigger -AtLogOn)
+    $(New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME)
 )
 
 $settings = New-ScheduledTaskSettingsSet `

@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.4 - 2026-04-26
+
+**Fixed**
+- `install.ps1`: scope the `-AtLogOn` trigger to `-User $env:USERNAME`. Without that flag the trigger defaults to "any user logs on", which requires admin rights to register and was the actual cause of `Access denied (0x80070005)` on `Register-ScheduledTask`. `install-watcher.ps1` already scoped its trigger correctly, which is why the watcher task registered fine while the daily task didn't.
+
+
 ## v1.1.3 - 2026-04-26
 
 **Fixed**
