@@ -1,4 +1,11 @@
 # Changelog
+
+## v1.1.2 - 2026-04-26
+
+**Fixed**
+- `watchers/watch-vault.ps1` now invokes `cowork-refresh.ps1` via the absolute path to `powershell.exe`. Same root cause as v1.1.1 — System32 not in PATH for the watcher's child-process context.
+- `install.ps1` adds an explicit `New-ScheduledTaskPrincipal` block. Without it, `Register-ScheduledTask` was failing with `Access is denied (0x80070005)` on systems where the default principal resolution requires elevation. `install-watcher.ps1` already had this block, which is why the watcher task registered fine while the daily task didn't.
+
 ## v1.1.1 - 2026-04-26
 
 Compatibility fixes for systems where System32 is not in PATH and PowerShell 5.1 reads .ps1 with Windows-1252 codepage.

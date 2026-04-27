@@ -62,12 +62,17 @@ $settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable `
     -DontStopOnIdleEnd
 
+$principal = New-ScheduledTaskPrincipal `
+    -UserId $env:USERNAME `
+    -LogonType Interactive `
+    -RunLevel Limited
+
 Register-ScheduledTask `
     -TaskName $taskName `
     -Action $action `
     -Trigger $triggers `
     -Settings $settings `
-    -RunLevel Limited `
+    -Principal $principal `
     -Force | Out-Null
 
 Write-Host "Task Scheduler job '$taskName' registered (daily $($Config.TriggerTime) + at logon)" -ForegroundColor Green

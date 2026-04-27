@@ -58,7 +58,7 @@ function Invoke-Refresh {
     param([string]$Reason)
     Write-WatchLog "Refresh ($Reason)"
     try {
-        $output = & powershell.exe -NoProfile -WindowStyle Hidden `
+        $output = & "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -WindowStyle Hidden `
             -ExecutionPolicy Bypass -File $RefreshScript -ConfigPath $ConfigPath 2>&1
         foreach ($l in $output) { Write-WatchLog "  | $l" }
     } catch {
