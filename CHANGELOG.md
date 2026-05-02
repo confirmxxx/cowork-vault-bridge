@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.2.0 — 2026-05-02
+
+**Added**
+- `cowork-write.ps1` — write-back from Cowork/Claude to vault notes.
+  - Opt-in safety gate: notes must contain `<!-- CLAUDE-WRITABLE -->` or the script exits 1.
+  - `append` mode: appends content to end of file.
+  - `section` mode: creates or replaces a named `<!-- CLAUDE-SECTION-START: name -->` / `<!-- CLAUDE-SECTION-END: name -->` block. Idempotent.
+  - Automatic `.bak` backup before every write.
+  - Atomic write via `.tmp` file → rename (no partial-write corruption on crash).
+  - Logs all operations to `$Config.LogFile` with timestamps.
+
+**Changed**
+- `README.md` — documented the full bidirectional architecture (read path + write path), security guidance (no upstream tracking, fetch→review→merge flow), marker setup instructions, updated flow diagram.
+
+---
+
 ## v1.1.4 - 2026-04-26
 
 **Fixed**
